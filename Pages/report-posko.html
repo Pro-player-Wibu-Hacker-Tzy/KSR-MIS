@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Posko | KSR-MIS</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>KSR-MIS</h1>
+        <p>KSR-PMI Unit UMM Management Information System</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="../index.html">Beranda</a></li>
+            <li><a href="inventaris.html">Inventaris</a></li>
+            <li><a href="kerjasama.html">Kerja Sama</a></li>
+            <li><a href="info-lomba.html">Info Lomba</a></li>
+            <li><a href="informasi.html">Informasi</a></li>
+            <li><a href="report-posko.html">Report Posko</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Page Header -->
+        <section class="page-header">
+            <h2>Report Posko</h2>
+            <p>
+                Form pelaporan kegiatan dan kondisi posko
+                KSR-PMI Unit UMM.
+            </p>
+        </section>
+
+
+        <!-- Access Notice -->
+        <section class="report-notice">
+
+            <div class="notice-icon">
+                !
+            </div>
+
+            <div>
+                <h3>Akses Terbatas</h3>
+                <p>
+                    Fitur Report Posko hanya dapat digunakan oleh
+                    pengguna yang memiliki hak akses.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- Report Form -->
+        <section>
+
+            <article class="form-card">
+
+                <div class="form-header">
+                    <h2>Form Report Posko</h2>
+                    <p>
+                        Isi data berikut dengan informasi yang sesuai
+                        dengan kondisi posko.
+                    </p>
+                </div>
+
+
+                <form>
+
+                    <!-- Informasi Dasar -->
+                    <fieldset>
+
+                        <legend>Informasi Dasar</legend>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="nama-posko">
+                                    Nama Posko
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nama-posko"
+                                    name="nama-posko"
+                                    placeholder="Masukkan nama posko"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="tanggal">
+                                    Tanggal
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="tanggal"
+                                    name="tanggal"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="lokasi">
+                                    Lokasi
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="lokasi"
+                                    name="lokasi"
+                                    placeholder="Masukkan lokasi posko"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="petugas">
+                                    Jumlah Petugas
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="petugas"
+                                    name="petugas"
+                                    min="0"
+                                    placeholder="Jumlah petugas"
+                                >
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+                    <!-- Kondisi Posko -->
+                    <fieldset>
+
+                        <legend>Kondisi Posko</legend>
+
+                        <div class="form-group">
+
+                            <label for="kondisi">
+                                Kondisi Saat Ini
+                            </label>
+
+                            <select id="kondisi" name="kondisi">
+
+                                <option value="">
+                                    -- Pilih Kondisi --
+                                </option>
+
+                                <option value="baik">
+                                    Baik
+                                </option>
+
+                                <option value="perlu-perhatian">
+                                    Perlu Perhatian
+                                </option>
+
+                                <option value="darurat">
+                                    Darurat
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="laporan">
+                                Keterangan
+                            </label>
+
+                            <textarea
+                                id="laporan"
+                                name="laporan"
+                                rows="5"
+                                placeholder="Tuliskan kondisi atau kejadian yang perlu dilaporkan..."
+                            ></textarea>
+
+                        </div>
+
+                    </fieldset>
+
+
+                    <!-- Submit -->
+                    <div class="form-actions">
+
+                        <button
+                            type="reset"
+                            class="btn-reset"
+                        >
+                            Reset
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >
+                            Kirim Laporan
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
+    </footer>
+
+</body>
+</html>
