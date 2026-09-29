@@ -29,50 +29,97 @@
 
 
     <!-- NAVIGATION -->
-    <nav class="border-b border-gray-200 bg-white">
+<nav class="border-b border-gray-200 bg-white">
 
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 md:px-10">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 md:px-10">
 
-            <ul class="flex flex-col sm:flex-row">
+        <!-- Navbar Header -->
+        <div class="flex items-center justify-between py-3 sm:py-0">
+
+            <!-- Logo / Menu title -->
+            <span class="font-semibold text-gray-700 sm:hidden">
+                Menu Pelayanan
+            </span>
+
+            <!-- Hamburger Button -->
+            <button
+                id="menuButton"
+                type="button"
+                class="ml-auto rounded-lg p-2 text-gray-700 hover:bg-gray-100 sm:hidden"
+                aria-label="Buka menu"
+                aria-expanded="false">
+
+                <!-- Hamburger Icon -->
+                <svg
+                    id="menuIcon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <!-- Menu -->
+        <div id="menu" class="hidden sm:block">
+
+            <ul class="flex flex-col gap-0 sm:flex-row sm:gap-1">
 
                 <li>
-                    <a href="index.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="index.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Beranda
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/inventaris.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="pages/inventaris.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Inventaris
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/kerjasama.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="pages/kerjasama.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Kerja Sama
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/info-lomba.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="pages/info-lomba.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Info Lomba
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/informasi.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="pages/informasi.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Informasi
                     </a>
                 </li>
 
                 <li>
-                    <a href="pages/report-posko.html"
-                       class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
+                    <a
+                        href="pages/report-posko.html"
+                        class="block px-3 py-3 font-semibold text-gray-700 transition hover:bg-red-50 hover:text-red-700 sm:px-4">
                         Report Posko
                     </a>
                 </li>
@@ -81,7 +128,9 @@
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
     <!-- MAIN -->

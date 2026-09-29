@@ -23,3 +23,23 @@ kategori.addEventListener("change", function () {
         "Kamu memilih layanan: " + kategori.value;
 
 });
+
+// ==============================
+// HAMBURGER MENU
+// ==============================
+
+const menuButton = document.getElementById("menuButton");
+const menu = document.getElementById("menu");
+
+menuButton.addEventListener("click", function () {
+
+    // Membuka / menutup menu
+    menu.classList.toggle("hidden");
+
+    // Cek apakah menu sedang terbuka
+    const isOpen = !menu.classList.contains("hidden");
+
+    // Update status tombol
+    menuButton.setAttribute("aria-expanded", isOpen);
+
+});
