@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -6,141 +8,429 @@
 
     <title>Inventaris | KSR-MIS</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="min-h-screen bg-gray-50 text-gray-800">
 
     <!-- Header -->
-    <header>
-        <h1>KSR-MIS</h1>
-        <p>KSR-PMI Unit UMM Management Information System</p>
+    <header class="bg-red-700 px-4 py-6 text-center text-white">
+        <h1 class="text-3xl font-bold">KSR-MIS</h1>
+        <p class="mt-1 text-sm text-red-100 sm:text-base">
+            KSR-PMI Unit UMM Management Information System
+        </p>
     </header>
 
+
     <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="../index.html">Beranda</a></li>
-            <li><a href="inventaris.html">Inventaris</a></li>
-            <li><a href="kerjasama.html">Kerja Sama</a></li>
-            <li><a href="info-lomba.html">Info Lomba</a></li>
-            <li><a href="informasi.html">Informasi</a></li>
-            <li><a href="report-posko.html">Report Posko</a></li>
-        </ul>
+    <nav class="bg-red-800 shadow-md">
+        <div class="mx-auto max-w-7xl px-4">
+            <ul class="flex flex-wrap justify-center gap-1 py-2 sm:gap-3">
+
+                <li>
+                    <a
+                        href="../../index.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Beranda
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="frontend/Pages/inventaris.html"
+                        class="block rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-700"
+                    >
+                        Inventaris
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="kerjasama.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Kerja Sama
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="info-lomba.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Info Lomba
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="informasi.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Informasi
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="report-posko.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Report Posko
+                    </a>
+                </li>
+
+            </ul>
+        </div>
     </nav>
 
+
     <!-- Main Content -->
-    <main>
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
         <!-- Page Header -->
-        <section class="page-header">
-            <h2>Inventaris KSR-PMI Unit UMM</h2>
-            <p>
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                Inventaris KSR-PMI Unit UMM
+            </h2>
+
+            <p class="mt-2 text-gray-600">
                 Kelola dan pantau data inventaris yang dimiliki
                 KSR-PMI Unit UMM.
             </p>
         </section>
 
+
         <!-- Statistik -->
-        <section class="stats-grid">
+        <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
-            <article class="stat-card">
-                <span class="stat-label">Total Barang</span>
-                <strong>42</strong>
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">
+                    Total Barang
+                </p>
+
+                <strong
+                    id="totalBarang"
+                    class="mt-2 block text-3xl font-bold text-gray-900"
+                >
+                    0
+                </strong>
             </article>
 
-            <article class="stat-card">
-                <span class="stat-label">Tersedia</span>
-                <strong>35</strong>
+
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">
+                    Tersedia
+                </p>
+
+                <strong
+                    id="totalTersedia"
+                    class="mt-2 block text-3xl font-bold text-green-600"
+                >
+                    0
+                </strong>
             </article>
 
-            <article class="stat-card">
-                <span class="stat-label">Dipinjam</span>
-                <strong>7</strong>
+
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">
+                    Dipinjam
+                </p>
+
+                <strong
+                    id="totalDipinjam"
+                    class="mt-2 block text-3xl font-bold text-orange-500"
+                >
+                    0
+                </strong>
             </article>
 
         </section>
 
+
         <!-- Daftar Inventaris -->
         <section>
 
-            <div class="section-title">
+            <!-- Section Title -->
+            <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
                 <div>
-                    <h2>Daftar Inventaris</h2>
-                    <p>Data inventaris KSR-PMI Unit UMM.</p>
+                    <h2 class="text-xl font-bold text-gray-900">
+                        Daftar Inventaris
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-600">
+                        Data inventaris KSR-PMI Unit UMM.
+                    </p>
                 </div>
 
-                <a href="#" class="btn-primary">+ Tambah Inventaris</a>
+
+                <button
+                    type="button"
+                    id="btnTambah"
+                    class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                    + Tambah Inventaris
+                </button>
+
             </div>
 
-            <article class="table-card">
 
-                <div class="table-wrapper">
-                    <table>
+            <!-- Loading -->
+            <div
+                id="loading"
+                class="hidden rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200"
+            >
+                <p class="text-gray-600">
+                    Memuat data inventaris...
+                </p>
+            </div>
 
-                        <thead>
+
+            <!-- Error -->
+            <div
+                id="errorMessage"
+                class="mb-4 hidden rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+            ></div>
+
+
+            <!-- Form Container -->
+            <div
+                id="formContainer"
+                class="mb-6 hidden rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 sm:p-6"
+            >
+
+                <div class="mb-5">
+                    <h3
+                        id="formTitle"
+                        class="text-lg font-bold text-gray-900"
+                    >
+                        Tambah Inventaris
+                    </h3>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        Isi data inventaris dengan lengkap.
+                    </p>
+                </div>
+
+
+                <form id="inventarisForm">
+
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                        <!-- Nama -->
+                        <div>
+                            <label
+                                for="nama"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Nama Barang
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nama"
+                                name="nama"
+                                required
+                                placeholder="Contoh: Kotak P3K"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+                        </div>
+
+
+                        <!-- Jumlah -->
+                        <div>
+                            <label
+                                for="jumlah"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Jumlah
+                            </label>
+
+                            <input
+                                type="number"
+                                id="jumlah"
+                                name="jumlah"
+                                min="0"
+                                required
+                                placeholder="Contoh: 5"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+                        </div>
+
+
+                        <!-- Kondisi -->
+                        <div>
+                            <label
+                                for="kondisi"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Kondisi
+                            </label>
+
+                            <select
+                                id="kondisi"
+                                name="kondisi"
+                                required
+                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+                                <option value="">
+                                    -- Pilih Kondisi --
+                                </option>
+
+                                <option value="Baik">
+                                    Baik
+                                </option>
+
+                                <option value="Rusak Ringan">
+                                    Rusak Ringan
+                                </option>
+
+                                <option value="Rusak Berat">
+                                    Rusak Berat
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <!-- Status -->
+                        <div>
+                            <label
+                                for="status"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Status
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status"
+                                required
+                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+                                <option value="">
+                                    -- Pilih Status --
+                                </option>
+
+                                <option value="Tersedia">
+                                    Tersedia
+                                </option>
+
+                                <option value="Dipinjam">
+                                    Dipinjam
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Form Actions -->
+                    <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+                        <button
+                            type="button"
+                            id="btnBatal"
+                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            type="submit"
+                            id="btnSimpan"
+                            class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Simpan
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- Table -->
+            <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+
+                <div class="overflow-x-auto">
+
+                    <table class="min-w-full divide-y divide-gray-200">
+
+                        <thead class="bg-gray-50">
+
                             <tr>
-                                <th>No</th>
-                                <th>Nama Barang</th>
-                                <th>Kategori</th>
-                                <th>Jumlah</th>
-                                <th>Status</th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    No
+                                </th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    Nama Barang
+                                </th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    Jumlah
+                                </th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    Kondisi
+                                </th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    Status
+                                </th>
+
+                                <th
+                                    class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                                >
+                                    Aksi
+                                </th>
+
                             </tr>
+
                         </thead>
 
-                        <tbody>
 
-                            <tr>
-                                <td>1</td>
-                                <td>Tandu</td>
-                                <td>Peralatan Medis</td>
-                                <td>2</td>
-                                <td>
-                                    <span class="status available">
-                                        Tersedia
-                                    </span>
-                                </td>
-                            </tr>
+                        <tbody
+                            id="inventarisTableBody"
+                            class="divide-y divide-gray-200"
+                        >
 
-                            <tr>
-                                <td>2</td>
-                                <td>APAR</td>
-                                <td>Keselamatan</td>
-                                <td>3</td>
-                                <td>
-                                    <span class="status available">
-                                        Tersedia
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>Kotak P3K</td>
-                                <td>Medis</td>
-                                <td>5</td>
-                                <td>
-                                    <span class="status borrowed">
-                                        Dipinjam
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>4</td>
-                                <td>Stetoskop</td>
-                                <td>Medis</td>
-                                <td>4</td>
-                                <td>
-                                    <span class="status available">
-                                        Tersedia
-                                    </span>
-                                </td>
-                            </tr>
+                            <!-- Data dari backend akan ditampilkan oleh JavaScript -->
 
                         </tbody>
 
                     </table>
+
+                </div>
+
+
+                <!-- Empty State -->
+                <div
+                    id="emptyState"
+                    class="hidden p-8 text-center"
+                >
+                    <p class="font-medium text-gray-700">
+                        Belum ada data inventaris.
+                    </p>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        Tambahkan inventaris menggunakan tombol di atas.
+                    </p>
                 </div>
 
             </article>
@@ -149,10 +439,17 @@
 
     </main>
 
+
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
+    <footer class="mt-8 bg-gray-900 px-4 py-6 text-center text-sm text-gray-400">
+        <p>
+            &copy; 2026 KSR-PMI Unit UMM. KSR-MIS.
+        </p>
     </footer>
+
+
+    <!-- JavaScript -->
+    <script src="../js/inventaris.js"></script>
 
 </body>
 </html>

@@ -6,161 +6,387 @@
 
     <title>Kerja Sama | KSR-MIS</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="min-h-screen bg-gray-50 text-gray-800">
 
     <!-- Header -->
-    <header>
-        <h1>KSR-MIS</h1>
-        <p>KSR-PMI Unit UMM Management Information System</p>
+    <header class="bg-red-700 px-4 py-6 text-center text-white">
+        <h1 class="text-3xl font-bold">KSR-MIS</h1>
+
+        <p class="mt-1 text-sm text-red-100 sm:text-base">
+            KSR-PMI Unit UMM Management Information System
+        </p>
     </header>
 
+
     <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="../index.html">Beranda</a></li>
-            <li><a href="inventaris.html">Inventaris</a></li>
-            <li><a href="kerjasama.html">Kerja Sama</a></li>
-            <li><a href="info-lomba.html">Info Lomba</a></li>
-            <li><a href="informasi.html">Informasi</a></li>
-            <li><a href="report-posko.html">Report Posko</a></li>
-        </ul>
+    <nav class="bg-red-800 shadow-md">
+        <div class="mx-auto max-w-7xl px-4">
+            <ul class="flex flex-wrap justify-center gap-1 py-2 sm:gap-3">
+
+                <li>
+                    <a
+                        href="../../index.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Beranda
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="inventaris.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Inventaris
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="kerjasama.html"
+                        class="block rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-700"
+                    >
+                        Kerja Sama
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="info-lomba.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Info Lomba
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="informasi.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Informasi
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="report-posko.html"
+                        class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+                    >
+                        Report Posko
+                    </a>
+                </li>
+
+            </ul>
+        </div>
     </nav>
 
+
     <!-- Main Content -->
-    <main>
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
         <!-- Page Header -->
-        <section class="page-header">
-            <h2>Kerja Sama</h2>
-            <p>
+        <section class="mb-8">
+
+            <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                Kerja Sama
+            </h2>
+
+            <p class="mt-2 text-gray-600">
                 Kelola informasi kerja sama dan kemitraan
                 KSR-PMI Unit UMM.
             </p>
+
         </section>
+
 
         <!-- Statistics -->
-        <section class="stats-grid">
+        <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
-            <article class="stat-card">
-                <span class="stat-label">Total Mitra</span>
-                <strong>12</strong>
+            <!-- Total Mitra -->
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+
+                <p class="text-sm font-medium text-gray-500">
+                    Total Mitra
+                </p>
+
+                <strong
+                    id="totalMitra"
+                    class="mt-2 block text-3xl font-bold text-gray-900"
+                >
+                    0
+                </strong>
+
             </article>
 
-            <article class="stat-card">
-                <span class="stat-label">Kerja Sama Aktif</span>
-                <strong>8</strong>
+
+            <!-- Aktif -->
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+
+                <p class="text-sm font-medium text-gray-500">
+                    Kerja Sama Aktif
+                </p>
+
+                <strong
+                    id="totalAktif"
+                    class="mt-2 block text-3xl font-bold text-green-600"
+                >
+                    0
+                </strong>
+
             </article>
 
-            <article class="stat-card">
-                <span class="stat-label">Pengajuan</span>
-                <strong>4</strong>
+
+            <!-- Pengajuan -->
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+
+                <p class="text-sm font-medium text-gray-500">
+                    Pengajuan
+                </p>
+
+                <strong
+                    id="totalPengajuan"
+                    class="mt-2 block text-3xl font-bold text-orange-500"
+                >
+                    0
+                </strong>
+
             </article>
 
         </section>
+
 
         <!-- Partnership List -->
         <section>
 
-            <div class="section-title">
+            <!-- Section Header -->
+            <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
                 <div>
-                    <h2>Daftar Kerja Sama</h2>
-                    <p>
+                    <h2 class="text-xl font-bold text-gray-900">
+                        Daftar Kerja Sama
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-600">
                         Informasi mitra dan status kerja sama.
                     </p>
                 </div>
 
-                <a href="#" class="btn-primary">
+
+                <button
+                    type="button"
+                    id="btnTambah"
+                    class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
                     + Ajukan Kerja Sama
-                </a>
+                </button>
+
             </div>
 
-            <div class="partnership-grid">
 
-                <!-- Card 1 -->
-                <article class="partnership-card">
+            <!-- Loading -->
+            <div
+                id="loading"
+                class="hidden rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200"
+            >
+                <p class="text-gray-600">
+                    Memuat data kerja sama...
+                </p>
+            </div>
 
-                    <div class="partnership-header">
-                        <div class="partner-icon">
-                            PMI
-                        </div>
 
-                        <span class="status active">
-                            Aktif
-                        </span>
-                    </div>
+            <!-- Error -->
+            <div
+                id="errorMessage"
+                class="mb-5 hidden rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+            ></div>
 
-                    <h3>PMI Kota Malang</h3>
 
-                    <p>
-                        Kerja sama dalam bidang kegiatan kemanusiaan,
-                        pelatihan, dan kepalangmerahan.
+            <!-- Form -->
+            <div
+                id="formContainer"
+                class="mb-6 hidden rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 sm:p-6"
+            >
+
+                <div class="mb-5">
+
+                    <h3
+                        id="formTitle"
+                        class="text-lg font-bold text-gray-900"
+                    >
+                        Ajukan Kerja Sama
+                    </h3>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        Isi data kerja sama dengan lengkap.
                     </p>
 
-                    <div class="partnership-info">
-                        <span>📅 Sejak 2024</span>
-                        <span>🤝 Kemitraan</span>
-                    </div>
-
-                </article>
+                </div>
 
 
-                <!-- Card 2 -->
-                <article class="partnership-card">
+                <form id="kerjasamaForm">
 
-                    <div class="partnership-header">
-                        <div class="partner-icon">
-                            UMM
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+                        <!-- Nama Instansi -->
+                        <div>
+
+                            <label
+                                for="namaInstansi"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Nama Instansi
+                            </label>
+
+                            <input
+                                type="text"
+                                id="namaInstansi"
+                                name="namaInstansi"
+                                required
+                                placeholder="Contoh: PMI Kota Malang"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+
                         </div>
 
-                        <span class="status active">
-                            Aktif
-                        </span>
-                    </div>
 
-                    <h3>Universitas Muhammadiyah Malang</h3>
+                        <!-- Jenis Kerja Sama -->
+                        <div>
 
-                    <p>
-                        Kerja sama dalam mendukung kegiatan organisasi
-                        dan pengembangan mahasiswa.
-                    </p>
+                            <label
+                                for="jenisKerjasama"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Jenis Kerja Sama
+                            </label>
 
-                    <div class="partnership-info">
-                        <span>📅 Sejak 2023</span>
-                        <span>🤝 Institusi</span>
-                    </div>
+                            <input
+                                type="text"
+                                id="jenisKerjasama"
+                                name="jenisKerjasama"
+                                required
+                                placeholder="Contoh: Kegiatan Sosial"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
 
-                </article>
-
-
-                <!-- Card 3 -->
-                <article class="partnership-card">
-
-                    <div class="partnership-header">
-                        <div class="partner-icon">
-                            ORMAWA
                         </div>
 
-                        <span class="status pending">
-                            Pengajuan
-                        </span>
+
+                        <!-- Tanggal -->
+                        <div>
+
+                            <label
+                                for="tanggal"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Tanggal
+                            </label>
+
+                            <input
+                                type="date"
+                                id="tanggal"
+                                name="tanggal"
+                                required
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+
+                        </div>
+
+
+                        <!-- Status -->
+                        <div>
+
+                            <label
+                                for="status"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                Status
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status"
+                                required
+                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                            >
+
+                                <option value="">
+                                    -- Pilih Status --
+                                </option>
+
+                                <option value="Aktif">
+                                    Aktif
+                                </option>
+
+                                <option value="Pengajuan">
+                                    Pengajuan
+                                </option>
+
+                                <option value="Selesai">
+                                    Selesai
+                                </option>
+
+                            </select>
+
+                        </div>
+
                     </div>
 
-                    <h3>Organisasi Mahasiswa</h3>
 
-                    <p>
-                        Pengajuan kerja sama kegiatan antar organisasi
-                        mahasiswa di lingkungan kampus.
-                    </p>
+                    <!-- Form Actions -->
+                    <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
-                    <div class="partnership-info">
-                        <span>📅 2026</span>
-                        <span>🤝 Kegiatan</span>
+                        <button
+                            type="button"
+                            id="btnBatal"
+                            class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            type="submit"
+                            id="btnSimpan"
+                            class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Simpan
+                        </button>
+
                     </div>
 
-                </article>
+                </form>
+
+            </div>
+
+
+            <!-- Partnership Cards -->
+            <div
+                id="kerjasamaContainer"
+                class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+            >
+
+                <!-- Data backend akan dirender oleh JavaScript -->
+
+            </div>
+
+
+            <!-- Empty State -->
+            <div
+                id="emptyState"
+                class="mt-5 hidden rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200"
+            >
+
+                <p class="font-medium text-gray-700">
+                    Belum ada data kerja sama.
+                </p>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    Tambahkan kerja sama menggunakan tombol di atas.
+                </p>
 
             </div>
 
@@ -168,10 +394,17 @@
 
     </main>
 
+
     <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
+    <footer class="mt-8 bg-gray-900 px-4 py-6 text-center text-sm text-gray-400">
+        <p>
+            &copy; 2026 KSR-PMI Unit UMM. KSR-MIS.
+        </p>
     </footer>
+
+
+    <!-- JavaScript -->
+    <script src="../js/kerjasama.js"></script>
 
 </body>
 </html>
