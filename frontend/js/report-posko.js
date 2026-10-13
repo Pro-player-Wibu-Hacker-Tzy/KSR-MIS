@@ -1,131 +1,263 @@
-const API_URL = 'http://localhost:3000/api/report-posko';
+const API_URL = "http://localhost:3000/api/report-posko";
 
-const form = document.getElementById('data-form');
-const tableBody = document.getElementById('table-body');
-const loading = document.getElementById('loading');
-const errorMessage = document.getElementById('error-message');
-const errorText = document.getElementById('error-text');
-const formTitle = document.getElementById('form-title');
-const cancelBtn = document.getElementById('cancel-btn');
+// Elemen HTML
+const totalPosko = document.getElementById("totalPosko");
+const totalAman = document.getElementById("totalAman");
+const totalPerhatian = document.getElementById("totalPerhatian");
+const btnTambah = document.getElementById("btnTambah");
+const loading = document.getElementById("loading");
+const errorMessage = document.getElementById("errorMessage");
+const formContainer = document.getElementById("formContainer");
+const formTitle = document.getElementById("formTitle");
+const btnBatal = document.getElementById("btnBatal");
+const btnSimpan = document.getElementById("btnSimpan");
+const reportPoskoForm = document.getElementById("reportPoskoForm");
+
+const namaPoskoInput = document.getElementById("namaPosko");
+const lokasiInput = document.getElementById("lokasi");
+const tanggalInput = document.getElementById("tanggal");
+const jumlahPetugasInput = document.getElementById("jumlahPetugas");
+const kondisiInput = document.getElementById("kondisi");
+const keteranganInput = document.getElementById("keterangan");
+
+const reportPoskoTableBody = document.getElementById("reportPoskoTableBody");
+const emptyState = document.getElementById("emptyState");
 
 let editId = null;
 
-document.addEventListener('DOMContentLoaded', fetchData);
-form.addEventListener('submit', handleSubmit);
-
-function showLoading() { loading.classList.remove('hidden'); }
-function hideLoading() { loading.classList.add('hidden'); }
-function showError(msg) {
-    errorText.textContent = msg;
-    errorMessage.classList.remove('hidden');
-    setTimeout(() => errorMessage.classList.add('hidden'), 5000);
-}
-
-async function fetchData() {
-    showLoading();
+// ==========================================
+// LOAD DATA
+// ==========================================
+async function loadReportPosko() {
+    showLoading(true);
+    hideError();
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Gagal mengambil data dari server');
+        if (!response.ok) throw new Error("Gagal mengambil data report posko.");
         const data = await response.json();
-        renderTable(data);
+        renderReportPosko(data);
     } catch (error) {
-        showError(error.message);
+        console.error("Error:", error);
+        showError("Tidak dapat mengambil data report posko. Pastikan backend sedang berjalan.");
     } finally {
-        hideLoading();
+        showLoading(false);
     }
 }
 
-function renderTable(data) {
-    tableBody.innerHTML = '';
-    if (!data || data.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="8" class="text-center py-4">Tidak ada data</td></tr>';
+// ==========================================
+// RENDER DATA
+// ==========================================
+function renderReportPosko(data) {
+    reportPoskoTableBody.innerHTML = "";
+
+    // Statistik
+    totalPosko.textContent = data.length;
+    const jumlahAman = data.filter(item => item.kondisi === "Aman").length;
+    const jumlahPerhatian = data.filter(item => item.kondisi === "Perlu Perhatian" || item.kondisi === "Darurat").length;
+    totalAman.textContent = jumlahAman;
+    totalPerhatian.textContent = jumlahPerhatian;
+
+    if (data.length === 0) {
+        emptyState.classList.remove("hidden");
         return;
     }
+    emptyState.classList.add("hidden");
 
-    data.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-b hover:bg-gray-100';
-        // Escape string untuk menghindari error saat ada karakter kutip
-        const safeKeterangan = item.keterangan.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        const safeNamaPosko = item.namaPosko.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        const safeLokasi = item.lokasi.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        const safeKondisi = item.kondisi.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-        tr.innerHTML = `
-            <td class="py-2 px-4">${item.id}</td>
-            <td class="py-2 px-4">${item.namaPosko}</td>
-            <td class="py-2 px-4">${item.lokasi}</td>
-            <td class="py-2 px-4">${item.tanggal}</td>
-            <td class="py-2 px-4 text-center">${item.jumlahPetugas}</td>
-            <td class="py-2 px-4">${item.kondisi}</td>
-            <td class="py-2 px-4 truncate max-w-xs" title="${item.keterangan}">${item.keterangan}</td>
-            <td class="py-2 px-4 text-center">
-                <button onclick="editData(${item.id}, '${safeNamaPosko}', '${safeLokasi}', '${item.tanggal}', ${item.jumlahPetugas}, '${safeKondisi}', '${safeKeterangan}')" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded text-sm mr-1">Edit</button>
-                <button onclick="deleteData(${item.id})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">Hapus</button>
+    data.forEach((item, index) => {
+        const row = document.createElement("tr");
+        row.className = "transition hover:bg-gray-50";
+        row.innerHTML = `
+            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">${index + 1}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-gray-900">${escapeHTML(item.namaPosko)}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">${escapeHTML(item.lokasi)}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600">${formatTanggal(item.tanggal)}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600 text-center">${item.jumlahPetugas}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm">${getKondisiBadge(item.kondisi)}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm text-gray-600 max-w-xs truncate" title="${escapeHTML(item.keterangan)}">${escapeHTML(item.keterangan)}</td>
+            <td class="whitespace-nowrap px-4 py-4 text-sm">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="editReportPosko(${item.id})" class="rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-yellow-600">Edit</button>
+                    <button type="button" onclick="deleteReportPosko(${item.id})" class="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-red-700">Hapus</button>
+                </div>
             </td>
         `;
-        tableBody.appendChild(tr);
+        reportPoskoTableBody.appendChild(row);
     });
 }
 
-async function handleSubmit(e) {
-    e.preventDefault();
-    const payload = {
-        namaPosko: document.getElementById('namaPosko').value,
-        lokasi: document.getElementById('lokasi').value,
-        tanggal: document.getElementById('tanggal').value,
-        jumlahPetugas: parseInt(document.getElementById('jumlahPetugas').value),
-        kondisi: document.getElementById('kondisi').value,
-        keterangan: document.getElementById('keterangan').value
+function getKondisiBadge(kondisi) {
+    if (kondisi === "Aman") {
+        return `<span class="inline-flex rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">Aman</span>`;
+    }
+    if (kondisi === "Perlu Perhatian") {
+        return `<span class="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700">Perlu Perhatian</span>`;
+    }
+    if (kondisi === "Darurat") {
+        return `<span class="inline-flex rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700">Darurat</span>`;
+    }
+    return `<span class="inline-flex rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">${escapeHTML(kondisi)}</span>`;
+}
+
+function formatTanggal(tanggal) {
+    if (!tanggal) return "-";
+    const date = new Date(tanggal);
+    if (Number.isNaN(date.getTime())) return escapeHTML(tanggal);
+    return date.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
+}
+
+// ==========================================
+// TAMBAH / EDIT FORM
+// ==========================================
+function openAddForm() {
+    editId = null;
+    formTitle.textContent = "Tambah Report Posko";
+    reportPoskoForm.reset();
+    btnSimpan.textContent = "Simpan";
+    formContainer.classList.remove("hidden");
+    namaPoskoInput.focus();
+    window.scrollTo({ top: formContainer.offsetTop - 20, behavior: "smooth" });
+}
+
+async function editReportPosko(id) {
+    hideError();
+    try {
+        const response = await fetch(`${API_URL}/${id}`);
+        if (!response.ok) throw new Error("Gagal mengambil data report posko.");
+        const item = await response.json();
+
+        editId = item.id;
+        formTitle.textContent = "Edit Report Posko";
+        namaPoskoInput.value = item.namaPosko;
+        lokasiInput.value = item.lokasi;
+        tanggalInput.value = item.tanggal;
+        jumlahPetugasInput.value = item.jumlahPetugas;
+        kondisiInput.value = item.kondisi;
+        keteranganInput.value = item.keterangan;
+
+        btnSimpan.textContent = "Update";
+        formContainer.classList.remove("hidden");
+        namaPoskoInput.focus();
+        window.scrollTo({ top: formContainer.offsetTop - 20, behavior: "smooth" });
+    } catch (error) {
+        console.error("Error:", error);
+        showError("Gagal mengambil data report posko untuk diedit.");
+    }
+}
+
+// ==========================================
+// SUBMIT FORM
+// ==========================================
+reportPoskoForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    hideError();
+
+    const data = {
+        namaPosko: namaPoskoInput.value.trim(),
+        lokasi: lokasiInput.value.trim(),
+        tanggal: tanggalInput.value,
+        jumlahPetugas: Number(jumlahPetugasInput.value),
+        kondisi: kondisiInput.value,
+        keterangan: keteranganInput.value.trim()
     };
 
-    const method = editId ? 'PUT' : 'POST';
-    const url = editId ? `${API_URL}/${editId}` : API_URL;
+    if (!data.namaPosko || !data.lokasi || !data.tanggal || data.jumlahPetugas < 0 || !data.kondisi || !data.keterangan) {
+        showError("Mohon lengkapi semua data report posko.");
+        return;
+    }
+
+    btnSimpan.disabled = true;
+    const textSimpan = btnSimpan.textContent;
+    btnSimpan.textContent = "Menyimpan...";
 
     try {
-        const response = await fetch(url, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Gagal menyimpan data');
-        resetForm();
-        fetchData();
+        let response;
+        if (editId !== null) {
+            response = await fetch(`${API_URL}/${editId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        } else {
+            response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        }
+
+        if (!response.ok) throw new Error("Gagal menyimpan data report posko.");
+        closeForm();
+        await loadReportPosko();
     } catch (error) {
-        showError(error.message);
+        console.error("Error:", error);
+        showError("Gagal menyimpan data report posko.");
+    } finally {
+        btnSimpan.disabled = false;
+        btnSimpan.textContent = textSimpan;
+    }
+});
+
+// ==========================================
+// DELETE
+// ==========================================
+async function deleteReportPosko(id) {
+    const yakin = confirm("Apakah kamu yakin ingin menghapus report posko ini?");
+    if (!yakin) return;
+    hideError();
+    try {
+        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error("Gagal menghapus data report posko.");
+        await loadReportPosko();
+    } catch (error) {
+        console.error("Error:", error);
+        showError("Gagal menghapus data report posko.");
     }
 }
 
-function editData(id, namaPosko, lokasi, tanggal, jumlahPetugas, kondisi, keterangan) {
-    editId = id;
-    document.getElementById('data-id').value = id;
-    document.getElementById('namaPosko').value = namaPosko;
-    document.getElementById('lokasi').value = lokasi;
-    document.getElementById('tanggal').value = tanggal;
-    document.getElementById('jumlahPetugas').value = jumlahPetugas;
-    document.getElementById('kondisi').value = kondisi;
-    document.getElementById('keterangan').value = keterangan;
-
-    formTitle.textContent = 'Edit Report Posko';
-    cancelBtn.classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function deleteData(id) {
-    if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) return;
-    try {
-        const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-        if (!response.ok) throw new Error('Gagal menghapus data');
-        fetchData();
-    } catch (error) {
-        showError(error.message);
-    }
-}
-
-function resetForm() {
+// ==========================================
+// CLOSE FORM
+// ==========================================
+function closeForm() {
+    formContainer.classList.add("hidden");
+    reportPoskoForm.reset();
     editId = null;
-    form.reset();
-    document.getElementById('data-id').value = '';
-    formTitle.textContent = 'Tambah Report Posko';
-    cancelBtn.classList.add('hidden');
+    formTitle.textContent = "Tambah Report Posko";
+    btnSimpan.textContent = "Simpan";
 }
+
+btnTambah.addEventListener("click", openAddForm);
+btnBatal.addEventListener("click", closeForm);
+
+// ==========================================
+// LOADING & ERROR
+// ==========================================
+function showLoading(isLoading) {
+    if (isLoading) {
+        loading.classList.remove("hidden");
+        reportPoskoTableBody.classList.add("hidden");
+    } else {
+        loading.classList.add("hidden");
+        reportPoskoTableBody.classList.remove("hidden");
+    }
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove("hidden");
+}
+
+function hideError() {
+    errorMessage.textContent = "";
+    errorMessage.classList.add("hidden");
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+loadReportPosko();

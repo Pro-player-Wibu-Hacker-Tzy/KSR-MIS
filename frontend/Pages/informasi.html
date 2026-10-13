@@ -3,67 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KSR-MIS - Informasi</title>
+    <title>Informasi | KSR-MIS</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-6">
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Manajemen Informasi</h1>
+<body class="min-h-screen bg-gray-50 text-gray-800">
 
-        <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline" id="error-text"></span>
+    <!-- Header -->
+    <header class="bg-red-700 px-4 py-6 text-center text-white">
+        <h1 class="text-3xl font-bold">KSR-MIS</h1>
+        <p class="mt-1 text-sm text-red-100 sm:text-base">KSR-PMI Unit UMM Management Information System</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-red-800 shadow-md">
+        <div class="mx-auto max-w-7xl px-4">
+            <ul class="flex flex-wrap justify-center gap-1 py-2 sm:gap-3">
+                <li><a href="../../index.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Beranda</a></li>
+                <li><a href="inventaris.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Inventaris</a></li>
+                <li><a href="kerjasama.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Kerja Sama</a></li>
+                <li><a href="info-lomba.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Info Lomba</a></li>
+                <li><a href="informasi.html" class="block rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-700">Informasi</a></li>
+                <li><a href="report-posko.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Report Posko</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6">
-            <h2 id="form-title" class="text-xl font-semibold mb-4 text-gray-700">Tambah Informasi</h2>
-            <form id="data-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="hidden" id="data-id">
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="judul">Judul</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="judul" type="text" required>
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="tanggal">Tanggal</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tanggal" type="date" required>
-                </div>
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="kategori">Kategori</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="kategori" type="text" required>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="isi">Isi</label>
-                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="isi" rows="3" required></textarea>
-                </div>
-                <div class="flex items-end space-x-2 md:col-span-2">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full md:w-auto">
-                        Simpan
-                    </button>
-                    <button type="button" id="cancel-btn" class="hidden bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full md:w-auto" onclick="resetForm()">
-                        Batal
-                    </button>
-                </div>
-            </form>
-        </div>
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">Informasi</h2>
+            <p class="mt-2 text-gray-600">Kelola informasi dan pengumuman KSR-PMI Unit UMM.</p>
+        </section>
 
-        <div id="loading" class="hidden text-center text-blue-500 font-bold mb-4">Memuat data...</div>
+        <!-- Statistik -->
+        <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">Total Informasi</p>
+                <strong id="totalInformasi" class="mt-2 block text-3xl font-bold text-gray-900">0</strong>
+            </article>
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">Kategori Pelatihan</p>
+                <strong id="totalPelatihan" class="mt-2 block text-3xl font-bold text-blue-600">0</strong>
+            </article>
+            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+                <p class="text-sm font-medium text-gray-500">Kategori Kegiatan</p>
+                <strong id="totalKegiatan" class="mt-2 block text-3xl font-bold text-green-600">0</strong>
+            </article>
+        </section>
 
-        <div class="bg-white shadow-md rounded overflow-hidden">
-            <table class="min-w-full bg-white">
-                <thead class="bg-gray-800 text-white">
-                    <tr>
-                        <th class="py-2 px-4 text-left">ID</th>
-                        <th class="py-2 px-4 text-left">Judul</th>
-                        <th class="py-2 px-4 text-left">Isi</th>
-                        <th class="py-2 px-4 text-left">Tanggal</th>
-                        <th class="py-2 px-4 text-left">Kategori</th>
-                        <th class="py-2 px-4 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body" class="text-gray-700">
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <!-- Daftar Informasi -->
+        <section>
+            <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Daftar Informasi</h2>
+                    <p class="mt-1 text-sm text-gray-600">Informasi terbaru seputar kegiatan KSR-PMI Unit UMM.</p>
+                </div>
+                <button type="button" id="btnTambah" class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">+ Tambah Informasi</button>
+            </div>
+
+            <!-- Loading & Error -->
+            <div id="loading" class="hidden rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200">
+                <p class="text-gray-600">Memuat data informasi...</p>
+            </div>
+            <div id="errorMessage" class="mb-4 hidden rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"></div>
+
+            <!-- Form Container -->
+            <div id="formContainer" class="mb-6 hidden rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 sm:p-6">
+                <div class="mb-5">
+                    <h3 id="formTitle" class="text-lg font-bold text-gray-900">Tambah Informasi</h3>
+                    <p class="mt-1 text-sm text-gray-500">Isi data informasi dengan lengkap.</p>
+                </div>
+                <form id="informasiForm">
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                        <div class="sm:col-span-2">
+                            <label for="judul" class="mb-1.5 block text-sm font-medium text-gray-700">Judul</label>
+                            <input type="text" id="judul" name="judul" required placeholder="Contoh: Pelatihan Pertolongan Pertama" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100">
+                        </div>
+                        <div>
+                            <label for="tanggal" class="mb-1.5 block text-sm font-medium text-gray-700">Tanggal</label>
+                            <input type="date" id="tanggal" name="tanggal" required class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100">
+                        </div>
+                        <div>
+                            <label for="kategori" class="mb-1.5 block text-sm font-medium text-gray-700">Kategori</label>
+                            <input type="text" id="kategori" name="kategori" required placeholder="Contoh: Pelatihan" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="isi" class="mb-1.5 block text-sm font-medium text-gray-700">Isi Informasi</label>
+                            <textarea id="isi" name="isi" rows="4" required placeholder="Tulis isi informasi di sini..." class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                        <button type="button" id="btnBatal" class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">Batal</button>
+                        <button type="submit" id="btnSimpan" class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50">Simpan</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Cards Container -->
+            <div id="informasiContainer" class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Data backend akan dirender oleh JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="mt-5 hidden rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200">
+                <p class="font-medium text-gray-700">Belum ada data informasi.</p>
+                <p class="mt-1 text-sm text-gray-500">Tambahkan informasi menggunakan tombol di atas.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-8 bg-gray-900 px-4 py-6 text-center text-sm text-gray-400">
+        <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
+    </footer>
 
     <script src="../js/informasi.js"></script>
 </body>

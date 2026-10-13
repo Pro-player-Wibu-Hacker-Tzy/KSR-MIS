@@ -1,123 +1,251 @@
-const API_URL = 'http://localhost:3000/api/informasi';
+const API_URL = "http://localhost:3000/api/informasi";
 
-const form = document.getElementById('data-form');
-const tableBody = document.getElementById('table-body');
-const loading = document.getElementById('loading');
-const errorMessage = document.getElementById('error-message');
-const errorText = document.getElementById('error-text');
-const formTitle = document.getElementById('form-title');
-const cancelBtn = document.getElementById('cancel-btn');
+// Elemen HTML
+const totalInformasi = document.getElementById("totalInformasi");
+const totalPelatihan = document.getElementById("totalPelatihan");
+const totalKegiatan = document.getElementById("totalKegiatan");
+const btnTambah = document.getElementById("btnTambah");
+const loading = document.getElementById("loading");
+const errorMessage = document.getElementById("errorMessage");
+const formContainer = document.getElementById("formContainer");
+const formTitle = document.getElementById("formTitle");
+const btnBatal = document.getElementById("btnBatal");
+const btnSimpan = document.getElementById("btnSimpan");
+const informasiForm = document.getElementById("informasiForm");
+
+const judulInput = document.getElementById("judul");
+const isiInput = document.getElementById("isi");
+const tanggalInput = document.getElementById("tanggal");
+const kategoriInput = document.getElementById("kategori");
+
+const informasiContainer = document.getElementById("informasiContainer");
+const emptyState = document.getElementById("emptyState");
 
 let editId = null;
 
-document.addEventListener('DOMContentLoaded', fetchData);
-form.addEventListener('submit', handleSubmit);
-
-function showLoading() { loading.classList.remove('hidden'); }
-function hideLoading() { loading.classList.add('hidden'); }
-function showError(msg) {
-    errorText.textContent = msg;
-    errorMessage.classList.remove('hidden');
-    setTimeout(() => errorMessage.classList.add('hidden'), 5000);
-}
-
-async function fetchData() {
-    showLoading();
+// ==========================================
+// LOAD DATA
+// ==========================================
+async function loadInformasi() {
+    showLoading(true);
+    hideError();
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error('Gagal mengambil data dari server');
+        if (!response.ok) throw new Error("Gagal mengambil data informasi.");
         const data = await response.json();
-        renderTable(data);
+        renderInformasi(data);
     } catch (error) {
-        showError(error.message);
+        console.error("Error:", error);
+        showError("Tidak dapat mengambil data informasi. Pastikan backend sedang berjalan.");
     } finally {
-        hideLoading();
+        showLoading(false);
     }
 }
 
-function renderTable(data) {
-    tableBody.innerHTML = '';
-    if (!data || data.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Tidak ada data</td></tr>';
+// ==========================================
+// RENDER DATA
+// ==========================================
+function renderInformasi(data) {
+    informasiContainer.innerHTML = "";
+
+    // Statistik
+    totalInformasi.textContent = data.length;
+    const jumlahPelatihan = data.filter(item => item.kategori === "Pelatihan").length;
+    const jumlahKegiatan = data.filter(item => item.kategori === "Kegiatan").length;
+    totalPelatihan.textContent = jumlahPelatihan;
+    totalKegiatan.textContent = jumlahKegiatan;
+
+    if (data.length === 0) {
+        emptyState.classList.remove("hidden");
         return;
     }
+    emptyState.classList.add("hidden");
 
     data.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-b hover:bg-gray-100';
-        // Escape string untuk menghindari error saat ada karakter kutip
-        const safeIsi = item.isi.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        const safeJudul = item.judul.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        
-        tr.innerHTML = `
-            <td class="py-2 px-4">${item.id}</td>
-            <td class="py-2 px-4">${item.judul}</td>
-            <td class="py-2 px-4 truncate max-w-xs" title="${item.isi}">${item.isi}</td>
-            <td class="py-2 px-4">${item.tanggal}</td>
-            <td class="py-2 px-4">${item.kategori}</td>
-            <td class="py-2 px-4 text-center">
-                <button onclick="editData(${item.id}, '${safeJudul}', '${safeIsi}', '${item.tanggal}', '${item.kategori}')" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded text-sm mr-1">Edit</button>
-                <button onclick="deleteData(${item.id})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm">Hapus</button>
-            </td>
+        const card = document.createElement("article");
+        card.className = "rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:-translate-y-0.5 hover:shadow-md flex flex-col";
+
+        card.innerHTML = `
+            <div class="mb-3 flex items-start justify-between gap-3">
+                <span class="inline-flex rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                    ${escapeHTML(item.kategori)}
+                </span>
+                <span class="text-xs text-gray-500">${formatTanggal(item.tanggal)}</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-gray-900 mb-2">
+                ${escapeHTML(item.judul)}
+            </h3>
+
+            <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">
+                ${escapeHTML(item.isi)}
+            </p>
+
+            <div class="mt-4 flex gap-2 border-t border-gray-100 pt-4">
+                <button type="button" onclick="editInformasi(${item.id})" class="flex-1 rounded-lg bg-yellow-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-yellow-600">Edit</button>
+                <button type="button" onclick="deleteInformasi(${item.id})" class="flex-1 rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-red-700">Hapus</button>
+            </div>
         `;
-        tableBody.appendChild(tr);
+        informasiContainer.appendChild(card);
     });
 }
 
-async function handleSubmit(e) {
-    e.preventDefault();
-    const payload = {
-        judul: document.getElementById('judul').value,
-        isi: document.getElementById('isi').value,
-        tanggal: document.getElementById('tanggal').value,
-        kategori: document.getElementById('kategori').value
+function formatTanggal(tanggal) {
+    if (!tanggal) return "-";
+    const date = new Date(tanggal);
+    if (Number.isNaN(date.getTime())) return escapeHTML(tanggal);
+    return date.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
+}
+
+// ==========================================
+// TAMBAH / EDIT FORM
+// ==========================================
+function openAddForm() {
+    editId = null;
+    formTitle.textContent = "Tambah Informasi";
+    informasiForm.reset();
+    btnSimpan.textContent = "Simpan";
+    formContainer.classList.remove("hidden");
+    judulInput.focus();
+    window.scrollTo({ top: formContainer.offsetTop - 20, behavior: "smooth" });
+}
+
+async function editInformasi(id) {
+    hideError();
+    try {
+        const response = await fetch(`${API_URL}/${id}`);
+        if (!response.ok) throw new Error("Gagal mengambil data informasi.");
+        const item = await response.json();
+
+        editId = item.id;
+        formTitle.textContent = "Edit Informasi";
+        judulInput.value = item.judul;
+        isiInput.value = item.isi;
+        tanggalInput.value = item.tanggal;
+        kategoriInput.value = item.kategori;
+
+        btnSimpan.textContent = "Update";
+        formContainer.classList.remove("hidden");
+        judulInput.focus();
+        window.scrollTo({ top: formContainer.offsetTop - 20, behavior: "smooth" });
+    } catch (error) {
+        console.error("Error:", error);
+        showError("Gagal mengambil data informasi untuk diedit.");
+    }
+}
+
+// ==========================================
+// SUBMIT FORM
+// ==========================================
+informasiForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    hideError();
+
+    const data = {
+        judul: judulInput.value.trim(),
+        isi: isiInput.value.trim(),
+        tanggal: tanggalInput.value,
+        kategori: kategoriInput.value.trim()
     };
 
-    const method = editId ? 'PUT' : 'POST';
-    const url = editId ? `${API_URL}/${editId}` : API_URL;
+    if (!data.judul || !data.isi || !data.tanggal || !data.kategori) {
+        showError("Mohon lengkapi semua data informasi.");
+        return;
+    }
+
+    btnSimpan.disabled = true;
+    const textSimpan = btnSimpan.textContent;
+    btnSimpan.textContent = "Menyimpan...";
 
     try {
-        const response = await fetch(url, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Gagal menyimpan data');
-        resetForm();
-        fetchData();
+        let response;
+        if (editId !== null) {
+            response = await fetch(`${API_URL}/${editId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        } else {
+            response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        }
+
+        if (!response.ok) throw new Error("Gagal menyimpan data informasi.");
+        closeForm();
+        await loadInformasi();
     } catch (error) {
-        showError(error.message);
+        console.error("Error:", error);
+        showError("Gagal menyimpan data informasi.");
+    } finally {
+        btnSimpan.disabled = false;
+        btnSimpan.textContent = textSimpan;
+    }
+});
+
+// ==========================================
+// DELETE
+// ==========================================
+async function deleteInformasi(id) {
+    const yakin = confirm("Apakah kamu yakin ingin menghapus informasi ini?");
+    if (!yakin) return;
+    hideError();
+    try {
+        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error("Gagal menghapus data informasi.");
+        await loadInformasi();
+    } catch (error) {
+        console.error("Error:", error);
+        showError("Gagal menghapus data informasi.");
     }
 }
 
-function editData(id, judul, isi, tanggal, kategori) {
-    editId = id;
-    document.getElementById('data-id').value = id;
-    document.getElementById('judul').value = judul;
-    document.getElementById('isi').value = isi;
-    document.getElementById('tanggal').value = tanggal;
-    document.getElementById('kategori').value = kategori;
-
-    formTitle.textContent = 'Edit Informasi';
-    cancelBtn.classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function deleteData(id) {
-    if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) return;
-    try {
-        const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-        if (!response.ok) throw new Error('Gagal menghapus data');
-        fetchData();
-    } catch (error) {
-        showError(error.message);
-    }
-}
-
-function resetForm() {
+// ==========================================
+// CLOSE FORM
+// ==========================================
+function closeForm() {
+    formContainer.classList.add("hidden");
+    informasiForm.reset();
     editId = null;
-    form.reset();
-    document.getElementById('data-id').value = '';
-    formTitle.textContent = 'Tambah Informasi';
-    cancelBtn.classList.add('hidden');
+    formTitle.textContent = "Tambah Informasi";
+    btnSimpan.textContent = "Simpan";
 }
+
+btnTambah.addEventListener("click", openAddForm);
+btnBatal.addEventListener("click", closeForm);
+
+// ==========================================
+// LOADING & ERROR
+// ==========================================
+function showLoading(isLoading) {
+    if (isLoading) {
+        loading.classList.remove("hidden");
+        informasiContainer.classList.add("hidden");
+    } else {
+        loading.classList.add("hidden");
+        informasiContainer.classList.remove("hidden");
+    }
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove("hidden");
+}
+
+function hideError() {
+    errorMessage.textContent = "";
+    errorMessage.classList.add("hidden");
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+loadInformasi();
