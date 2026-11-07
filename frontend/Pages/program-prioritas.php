@@ -1,19 +1,7 @@
+
 <?php
-class ProgramPrioritas
-{
-    public function __construct(
-        public readonly int $id,
-        public readonly string $namaProgram,
-        public readonly string $kategori,
-        public readonly string $penanggungJawab,
-        public readonly string $tanggalMulai,
-        public readonly string $targetSelesai,
-        public readonly string $status,
-        public readonly int $progress,
-        public readonly string $deskripsi
-    ) {
-    }
-}
+
+require_once __DIR__ . '/../../classes/ProgramPrioritas.php';
 
 $programPrioritas = [
     new ProgramPrioritas(
@@ -73,38 +61,19 @@ $programPrioritas = [
     ),
 ];
 
-// 2. PROCESS DATA WITH PHP (KALKULASI STATISTIK & FUNGSI)
+$totalProgram = count($programPrioritas);
+$totalBerlangsung = 0;
+$totalSelesai = 0;
+$totalAkanDatang = 0;
 
-// Perhitungan Statistik
-$totalProgram   = count($programPrioritas);
-$totalBerlangsung = count(array_filter($programPrioritas, fn($item) => $item->status === 'Berlangsung'));
-$totalSelesai   = count(array_filter($programPrioritas, fn($item) => $item->status === 'Selesai'));
-$totalAkanDatang = count(array_filter($programPrioritas, fn($item) => $item->status === 'Akan Datang'));
-
-// Fungsi Conditional Status / Badge HTML
-function renderStatusBadge($status) {
-    switch ($status) {
-        case 'Akan Datang':
-            return '<span class="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700">Akan Datang</span>';
-        case 'Berlangsung':
-            return '<span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">Berlangsung</span>';
-        case 'Selesai':
-            return '<span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">Selesai</span>';
-        default:
-            return '<span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">' . htmlspecialchars($status) . '</span>';
+foreach ($programPrioritas as $program) {
+    if ($program->status === 'Berlangsung') {
+        $totalBerlangsung++;
+    } elseif ($program->status === 'Selesai') {
+        $totalSelesai++;
+    } elseif ($program->status === 'Akan Datang') {
+        $totalAkanDatang++;
     }
-}
-
-// Fungsi Format Tanggal Bahasa Indonesia
-function formatTanggalIndo($tanggal) {
-    if (!$tanggal) return '-';
-    $bulan = [
-        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-    $split = explode('-', $tanggal);
-    if (count($split) !== 3) return htmlspecialchars($tanggal);
-    return $split[2] . ' ' . $bulan[(int)$split[1]] . ' ' . $split[0];
 }
 ?>
 <!DOCTYPE html>
@@ -113,165 +82,119 @@ function formatTanggalIndo($tanggal) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program Prioritas | KSR-MIS</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-800 font-sans">
 
-    <!-- Header (Sama seperti struktur Week 4) -->
-    <header class="bg-red-700 px-4 py-6 text-center text-white">
-        <h1 class="text-3xl font-bold">KSR-MIS</h1>
-        <p class="mt-1 text-sm text-red-100 sm:text-base">KSR-PMI Unit UMM Management Information System</p>
-    </header>
+<body class="min-h-screen bg-gray-50 font-sans text-gray-800">
 
-    <!-- Navigation (Sama seperti struktur Week 4) -->
-    <nav class="bg-red-800 shadow-md">
-        <div class="mx-auto max-w-7xl px-4">
-            <ul class="flex flex-wrap justify-center gap-1 py-2 sm:gap-3">
-                <li><a href="../../index.php" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Beranda</a></li>
-                <li><a href="inventaris.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Inventaris</a></li>
-                <li><a href="kerjasama.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Kerja Sama</a></li>
-                <li><a href="info-lomba.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Info Lomba</a></li>
-                <li><a href="informasi.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Informasi</a></li>
-                <li><a href="report-posko.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">Report Posko</a></li>
-                <li><a href="program-prioritas.php" class="block rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-700">Program Prioritas (PHP SSR)</a></li>
-            </ul>
+<header class="bg-red-700 px-4 py-6 text-center text-white">
+    <h1 class="text-3xl font-bold">KSR-MIS</h1>
+    <p class="mt-1 text-sm text-red-100 sm:text-base">
+        KSR-PMI Unit UMM Management Information System
+    </p>
+</header>
+
+<nav class="bg-red-800 shadow-md">
+    <div class="mx-auto max-w-7xl px-4">
+        <ul class="flex flex-wrap justify-center gap-1 py-2 sm:gap-3">
+            <li><a href="../../index.php" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Beranda</a></li>
+            <li><a href="inventaris.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Inventaris</a></li>
+            <li><a href="kerjasama.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Kerja Sama</a></li>
+            <li><a href="info-lomba.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Info Lomba</a></li>
+            <li><a href="informasi.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Informasi</a></li>
+            <li><a href="report-posko.html" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Report Posko</a></li>
+            <li><a href="program-prioritas.php" class="block rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-700">Program Prioritas</a></li>
+            <li><a href="../../oop-demo.php" class="block rounded-lg px-3 py-2 text-sm font-medium text-white hover:bg-red-700">Demo OOP</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Program Prioritas Organisasi
+        </h2>
+        <p class="mt-2 text-gray-600">
+            Daftar agenda dan program kerja unggulan KSR-PMI Unit UMM.
+        </p>
+    </section>
+
+    <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+            <p class="text-sm font-medium text-gray-500">Total Program</p>
+            <strong class="mt-2 block text-3xl font-bold"><?= $totalProgram ?></strong>
+        </article>
+
+        <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+            <p class="text-sm font-medium text-gray-500">Berlangsung</p>
+            <strong class="mt-2 block text-3xl font-bold text-blue-600"><?= $totalBerlangsung ?></strong>
+        </article>
+
+        <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+            <p class="text-sm font-medium text-gray-500">Selesai</p>
+            <strong class="mt-2 block text-3xl font-bold text-green-600"><?= $totalSelesai ?></strong>
+        </article>
+
+        <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+            <p class="text-sm font-medium text-gray-500">Akan Datang</p>
+            <strong class="mt-2 block text-3xl font-bold text-orange-500"><?= $totalAkanDatang ?></strong>
+        </article>
+    </section>
+
+    <section class="mb-12">
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-gray-900">Kartu Program Prioritas</h2>
+            <p class="text-sm text-gray-600">
+                Kartu dibuat melalui method renderCard() dari object ProgramPrioritas.
+            </p>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        
-        <!-- Header Halaman -->
-        <section class="mb-8">
-            <h2 class="text-2xl font-bold text-gray-900 sm:text-3xl">Program Prioritas Organisasi</h2>
-            <p class="mt-2 text-gray-600">Daftar agenda dan program kerja unggulan KSR-PMI Unit UMM (Server-Side Rendering dengan PHP).</p>
-        </section>
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <?php foreach ($programPrioritas as $index => $program): ?>
+                <?= $program->renderCard($index + 1) ?>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
-        <!-- Dynamic Statistics Cards (Processed by PHP) -->
-        <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-                <p class="text-sm font-medium text-gray-500">Total Program</p>
-                <strong class="mt-2 block text-3xl font-bold text-gray-900"><?= $totalProgram ?></strong>
-            </article>
-            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-                <p class="text-sm font-medium text-gray-500">Berlangsung</p>
-                <strong class="mt-2 block text-3xl font-bold text-blue-600"><?= $totalBerlangsung ?></strong>
-            </article>
-            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-                <p class="text-sm font-medium text-gray-500">Selesai</p>
-                <strong class="mt-2 block text-3xl font-bold text-green-600"><?= $totalSelesai ?></strong>
-            </article>
-            <article class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-                <p class="text-sm font-medium text-gray-500">Akan Datang</p>
-                <strong class="mt-2 block text-3xl font-bold text-orange-500"><?= $totalAkanDatang ?></strong>
-            </article>
-        </section>
+    <section>
+        <div class="mb-4">
+            <h2 class="text-xl font-bold text-gray-900">Ringkasan Tabel Program</h2>
+            <p class="text-sm text-gray-600">
+                Baris tabel dibuat melalui method renderTableRow().
+            </p>
+        </div>
 
-        <!-- 3. BUILD DYNAMIC SERVER-SIDE CONTENT (SSR DYNAMIC GRID CARDS) -->
-        <section class="mb-12">
-            <div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-900">Kartu Program Prioritas</h2>
-                    <p class="text-sm text-gray-600">Dynamic Grid Cards dirender langsung oleh Server PHP.</p>
-                </div>
+        <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+                    <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-500">
+                        <tr>
+                            <th class="px-4 py-3">No</th>
+                            <th class="px-4 py-3">Nama Program</th>
+                            <th class="px-4 py-3">Kategori</th>
+                            <th class="px-4 py-3">Penanggung Jawab</th>
+                            <th class="px-4 py-3">Target Selesai</th>
+                            <th class="px-4 py-3">Progres</th>
+                            <th class="px-4 py-3">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        <?php foreach ($programPrioritas as $index => $program): ?>
+                            <?= $program->renderTableRow($index + 1) ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
+        </article>
+    </section>
 
-            <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-                <?php foreach ($programPrioritas as $index => $program) : ?>
-                    <article class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200 transition hover:-translate-y-0.5 hover:shadow-md flex flex-col justify-between">
-                        <div>
-                            <!-- Header Card: Penomoran & Badge Status Conditional -->
-                            <div class="mb-3 flex items-start justify-between gap-2">
-                                <span class="rounded-md bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/20">
-                                    #<?= $index + 1 ?>
-                                </span>
-                                <?= renderStatusBadge($program->status) ?>
-                            </div>
+</main>
 
-                            <!-- Judul & Kategori -->
-                            <span class="text-xs font-medium text-gray-500 uppercase tracking-wider block mb-1">
-                                <?= htmlspecialchars($program->kategori) ?>
-                            </span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">
-                                <?= htmlspecialchars($program->namaProgram) ?>
-                            </h3>
-                            <p class="text-sm text-gray-600 mb-4 line-clamp-3">
-                                <?= htmlspecialchars($program->deskripsi) ?>
-                            </p>
-                        </div>
-
-                        <div>
-                            <!-- Progress Bar Dinamis PHP -->
-                            <div class="mb-4">
-                                <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                                    <span>Progres</span>
-                                    <span><?= $program->progress ?>%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                                    <div class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: <?= $program->progress ?>%"></div>
-                                </div>
-                            </div>
-
-                            <!-- Detail Tanggal & PJ -->
-                            <div class="border-t border-gray-100 pt-3 text-xs text-gray-500 space-y-1">
-                                <p><strong class="text-gray-700">PJ:</strong> <?= htmlspecialchars($program->penanggungJawab) ?></p>
-                                <p><strong class="text-gray-700">Target:</strong> <?= formatTanggalIndo($program->targetSelesai) ?></p>
-                            </div>
-                        </div>
-                    </article>
-                <?php endforeach; ?>
-            </div>
-        </section>
-
-        <!-- LOOP PENOMORAN PADA TABEL RINGKASAN (SSR TABLE) -->
-        <section>
-            <div class="mb-4">
-                <h2 class="text-xl font-bold text-gray-900">Ringkasan Tabel Program</h2>
-                <p class="text-sm text-gray-600">Tampilan data tabular dengan loop penomoran PHP berurutan.</p>
-            </div>
-
-            <article class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
-                        <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                            <tr>
-                                <th class="px-4 py-3">No</th>
-                                <th class="px-4 py-3">Nama Program</th>
-                                <th class="px-4 py-3">Kategori</th>
-                                <th class="px-4 py-3">Penanggung Jawab</th>
-                                <th class="px-4 py-3">Target Selesai</th>
-                                <th class="px-4 py-3">Progres</th>
-                                <th class="px-4 py-3">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white">
-                            <?php 
-                            $no = 1; // Inisialisasi loop penomoran
-                            foreach ($programPrioritas as $program) : 
-                            ?>
-                                <tr class="transition hover:bg-gray-50">
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600 font-medium"><?= $no++ ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 font-semibold text-gray-900"><?= htmlspecialchars($program->namaProgram) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program->kategori) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program->penanggungJawab) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= formatTanggalIndo($program->targetSelesai) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 font-medium text-gray-800"><?= $program->progress ?>%</td>
-                                    <td class="whitespace-nowrap px-4 py-3"><?= renderStatusBadge($program->status) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </article>
-        </section>
-
-    </main>
-
-    <!-- Footer (Sama seperti struktur Week 4) -->
-    <footer class="mt-12 bg-gray-900 px-4 py-6 text-center text-sm text-gray-400">
-        <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
-    </footer>
+<footer class="mt-12 bg-gray-900 px-4 py-6 text-center text-sm text-gray-400">
+    <p>&copy; 2026 KSR-PMI Unit UMM. KSR-MIS.</p>
+</footer>
 
 </body>
 </html>
