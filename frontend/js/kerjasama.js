@@ -45,7 +45,7 @@ async function loadKerjasama() {
 
     try {
 
-        const response = await fetch(API_URL);
+        const response = await ksrDemoApiFetch(API_URL);
 
         if (!response.ok) {
             throw new Error("Gagal mengambil data kerja sama.");
@@ -322,7 +322,7 @@ async function editKerjasama(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`);
 
         if (!response.ok) {
             throw new Error("Gagal mengambil data kerja sama.");
@@ -424,7 +424,7 @@ kerjasamaForm.addEventListener("submit", async function (event) {
 
         if (editId !== null) {
 
-            response = await fetch(`${API_URL}/${editId}`, {
+            response = await ksrDemoApiFetch(`${API_URL}/${editId}`, {
 
                 method: "PUT",
 
@@ -445,7 +445,7 @@ kerjasamaForm.addEventListener("submit", async function (event) {
 
         else {
 
-            response = await fetch(API_URL, {
+            response = await ksrDemoApiFetch(API_URL, {
 
                 method: "POST",
 
@@ -512,7 +512,7 @@ async function deleteKerjasama(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`, {
 
             method: "DELETE"
 

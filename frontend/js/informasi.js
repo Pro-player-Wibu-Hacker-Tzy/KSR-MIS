@@ -30,7 +30,7 @@ async function loadInformasi() {
     showLoading(true);
     hideError();
     try {
-        const response = await fetch(API_URL);
+        const response = await ksrDemoApiFetch(API_URL);
         if (!response.ok) throw new Error("Gagal mengambil data informasi.");
         const data = await response.json();
         renderInformasi(data);
@@ -113,7 +113,7 @@ function openAddForm() {
 async function editInformasi(id) {
     hideError();
     try {
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`);
         if (!response.ok) throw new Error("Gagal mengambil data informasi.");
         const item = await response.json();
 
@@ -160,13 +160,13 @@ informasiForm.addEventListener("submit", async function (event) {
     try {
         let response;
         if (editId !== null) {
-            response = await fetch(`${API_URL}/${editId}`, {
+            response = await ksrDemoApiFetch(`${API_URL}/${editId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
         } else {
-            response = await fetch(API_URL, {
+            response = await ksrDemoApiFetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
@@ -193,7 +193,7 @@ async function deleteInformasi(id) {
     if (!yakin) return;
     hideError();
     try {
-        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`, { method: "DELETE" });
         if (!response.ok) throw new Error("Gagal menghapus data informasi.");
         await loadInformasi();
     } catch (error) {

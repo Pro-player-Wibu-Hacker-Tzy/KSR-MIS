@@ -40,7 +40,7 @@ async function loadInventaris() {
     hideError();
 
     try {
-        const response = await fetch(API_URL);
+        const response = await ksrDemoApiFetch(API_URL);
 
         if (!response.ok) {
             throw new Error("Gagal mengambil data inventaris.");
@@ -208,7 +208,7 @@ async function editInventaris(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`);
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`);
 
         if (!response.ok) {
             throw new Error("Gagal mengambil data inventaris.");
@@ -290,7 +290,7 @@ inventarisForm.addEventListener("submit", async function (event) {
         // EDIT
         if (editId !== null) {
 
-            response = await fetch(`${API_URL}/${editId}`, {
+            response = await ksrDemoApiFetch(`${API_URL}/${editId}`, {
                 method: "PUT",
 
                 headers: {
@@ -306,7 +306,7 @@ inventarisForm.addEventListener("submit", async function (event) {
         // TAMBAH
         else {
 
-            response = await fetch(API_URL, {
+            response = await ksrDemoApiFetch(API_URL, {
                 method: "POST",
 
                 headers: {
@@ -363,7 +363,7 @@ async function deleteInventaris(id) {
 
     try {
 
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await ksrDemoApiFetch(`${API_URL}/${id}`, {
             method: "DELETE"
         });
 

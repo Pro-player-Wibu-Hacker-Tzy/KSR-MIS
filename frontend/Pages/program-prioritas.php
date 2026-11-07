@@ -1,70 +1,85 @@
 <?php
-// 1. DATA ARRAY MULTIDIMENSI (PHP PROGRAM PRIORITAS)
+class ProgramPrioritas
+{
+    public function __construct(
+        public readonly int $id,
+        public readonly string $namaProgram,
+        public readonly string $kategori,
+        public readonly string $penanggungJawab,
+        public readonly string $tanggalMulai,
+        public readonly string $targetSelesai,
+        public readonly string $status,
+        public readonly int $progress,
+        public readonly string $deskripsi
+    ) {
+    }
+}
+
 $programPrioritas = [
-    [
-        "id" => 1,
-        "namaProgram" => "Pengadaan Ambulans KSR-PMI Unit UMM",
-        "kategori" => "Fasilitas & Inventaris",
-        "penanggungJawab" => "Divisi Inventaris",
-        "tanggalMulai" => "2026-01-10",
-        "targetSelesai" => "2026-06-30",
-        "status" => "Berlangsung",
-        "progress" => 65,
-        "deskripsi" => "Pengadaan dan penyiapan unit ambulans operasional untuk pertolongan pertama siaga tanggap darurat kampus."
-    ],
-    [
-        "id" => 2,
-        "namaProgram" => "Pelatihan Pertolongan Pertama (PP) Nasional",
-        "kategori" => "Diklat & Pelatihan",
-        "penanggungJawab" => "Divisi Pendidikan",
-        "tanggalMulai" => "2026-02-01",
-        "targetSelesai" => "2026-04-15",
-        "status" => "Akan Datang",
-        "progress" => 25,
-        "deskripsi" => "Penyelenggaraan pelatihan sertifikasi pertolongan pertama tingkat nasional untuk anggota aktif KSR."
-    ],
-    [
-        "id" => 3,
-        "namaProgram" => "Digitalisasi Sistem Management KSR-MIS",
-        "kategori" => "Teknologi & Informasi",
-        "penanggungJawab" => "Divisi Humas & IT",
-        "tanggalMulai" => "2026-01-05",
-        "targetSelesai" => "2026-03-20",
-        "status" => "Selesai",
-        "progress" => 100,
-        "deskripsi" => "Pengembangan platform web terintegrasi untuk pengelolaan data inventaris, posko, kerja sama, dan info lomba."
-    ],
-    [
-        "id" => 4,
-        "namaProgram" => "Renovasi & Standarisasi Posko Siaga Bencana",
-        "kategori" => "Infrastruktur Posko",
-        "penanggungJawab" => "Divisi Logistik",
-        "tanggalMulai" => "2026-03-01",
-        "targetSelesai" => "2026-05-10",
-        "status" => "Berlangsung",
-        "progress" => 40,
-        "deskripsi" => "Peningkatan kelayakan dan kapasitas ruang penyimpanan alat medis serta ruang siaga petugas posko."
-    ],
-    [
-        "id" => 5,
-        "namaProgram" => "Kemitraan Strategis Donor Darah Rutin PMI",
-        "kategori" => "Kerja Sama & Pengabdian",
-        "penanggungJawab" => "Divisi Kerjasama",
-        "tanggalMulai" => "2026-01-15",
-        "targetSelesai" => "2026-12-31",
-        "status" => "Berlangsung",
-        "progress" => 80,
-        "deskripsi" => "Program rutin donor darah 3 bulanan berkolaborasi dengan PMI Kota Malang dan PMI Jawa Timur."
-    ]
+    new ProgramPrioritas(
+        1,
+        "Pengadaan Ambulans KSR-PMI Unit UMM",
+        "Fasilitas & Inventaris",
+        "Divisi Inventaris",
+        "2026-01-10",
+        "2026-06-30",
+        "Berlangsung",
+        65,
+        "Pengadaan dan penyiapan unit ambulans operasional untuk pertolongan pertama siaga tanggap darurat kampus."
+    ),
+    new ProgramPrioritas(
+        2,
+        "Pelatihan Pertolongan Pertama (PP) Nasional",
+        "Diklat & Pelatihan",
+        "Divisi Pendidikan",
+        "2026-02-01",
+        "2026-04-15",
+        "Akan Datang",
+        25,
+        "Penyelenggaraan pelatihan sertifikasi pertolongan pertama tingkat nasional untuk anggota aktif KSR."
+    ),
+    new ProgramPrioritas(
+        3,
+        "Digitalisasi Sistem Management KSR-MIS",
+        "Teknologi & Informasi",
+        "Divisi Humas & IT",
+        "2026-01-05",
+        "2026-03-20",
+        "Selesai",
+        100,
+        "Pengembangan platform web terintegrasi untuk pengelolaan data inventaris, posko, kerja sama, dan info lomba."
+    ),
+    new ProgramPrioritas(
+        4,
+        "Renovasi & Standarisasi Posko Siaga Bencana",
+        "Infrastruktur Posko",
+        "Divisi Logistik",
+        "2026-03-01",
+        "2026-05-10",
+        "Berlangsung",
+        40,
+        "Peningkatan kelayakan dan kapasitas ruang penyimpanan alat medis serta ruang siaga petugas posko."
+    ),
+    new ProgramPrioritas(
+        5,
+        "Kemitraan Strategis Donor Darah Rutin PMI",
+        "Kerja Sama & Pengabdian",
+        "Divisi Kerjasama",
+        "2026-01-15",
+        "2026-12-31",
+        "Berlangsung",
+        80,
+        "Program rutin donor darah 3 bulanan berkolaborasi dengan PMI Kota Malang dan PMI Jawa Timur."
+    ),
 ];
 
 // 2. PROCESS DATA WITH PHP (KALKULASI STATISTIK & FUNGSI)
 
 // Perhitungan Statistik
 $totalProgram   = count($programPrioritas);
-$totalBerlangsung = count(array_filter($programPrioritas, fn($item) => $item['status'] === 'Berlangsung'));
-$totalSelesai   = count(array_filter($programPrioritas, fn($item) => $item['status'] === 'Selesai'));
-$totalAkanDatang = count(array_filter($programPrioritas, fn($item) => $item['status'] === 'Akan Datang'));
+$totalBerlangsung = count(array_filter($programPrioritas, fn($item) => $item->status === 'Berlangsung'));
+$totalSelesai   = count(array_filter($programPrioritas, fn($item) => $item->status === 'Selesai'));
+$totalAkanDatang = count(array_filter($programPrioritas, fn($item) => $item->status === 'Akan Datang'));
 
 // Fungsi Conditional Status / Badge HTML
 function renderStatusBadge($status) {
@@ -171,18 +186,18 @@ function formatTanggalIndo($tanggal) {
                                 <span class="rounded-md bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/20">
                                     #<?= $index + 1 ?>
                                 </span>
-                                <?= renderStatusBadge($program['status']) ?>
+                                <?= renderStatusBadge($program->status) ?>
                             </div>
 
                             <!-- Judul & Kategori -->
                             <span class="text-xs font-medium text-gray-500 uppercase tracking-wider block mb-1">
-                                <?= htmlspecialchars($program['kategori']) ?>
+                                <?= htmlspecialchars($program->kategori) ?>
                             </span>
                             <h3 class="text-lg font-bold text-gray-900 mb-2">
-                                <?= htmlspecialchars($program['namaProgram']) ?>
+                                <?= htmlspecialchars($program->namaProgram) ?>
                             </h3>
                             <p class="text-sm text-gray-600 mb-4 line-clamp-3">
-                                <?= htmlspecialchars($program['deskripsi']) ?>
+                                <?= htmlspecialchars($program->deskripsi) ?>
                             </p>
                         </div>
 
@@ -191,17 +206,17 @@ function formatTanggalIndo($tanggal) {
                             <div class="mb-4">
                                 <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
                                     <span>Progres</span>
-                                    <span><?= $program['progress'] ?>%</span>
+                                    <span><?= $program->progress ?>%</span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                                    <div class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: <?= $program['progress'] ?>%"></div>
+                                    <div class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: <?= $program->progress ?>%"></div>
                                 </div>
                             </div>
 
                             <!-- Detail Tanggal & PJ -->
                             <div class="border-t border-gray-100 pt-3 text-xs text-gray-500 space-y-1">
-                                <p><strong class="text-gray-700">PJ:</strong> <?= htmlspecialchars($program['penanggungJawab']) ?></p>
-                                <p><strong class="text-gray-700">Target:</strong> <?= formatTanggalIndo($program['targetSelesai']) ?></p>
+                                <p><strong class="text-gray-700">PJ:</strong> <?= htmlspecialchars($program->penanggungJawab) ?></p>
+                                <p><strong class="text-gray-700">Target:</strong> <?= formatTanggalIndo($program->targetSelesai) ?></p>
                             </div>
                         </div>
                     </article>
@@ -237,12 +252,12 @@ function formatTanggalIndo($tanggal) {
                             ?>
                                 <tr class="transition hover:bg-gray-50">
                                     <td class="whitespace-nowrap px-4 py-3 text-gray-600 font-medium"><?= $no++ ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 font-semibold text-gray-900"><?= htmlspecialchars($program['namaProgram']) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program['kategori']) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program['penanggungJawab']) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= formatTanggalIndo($program['targetSelesai']) ?></td>
-                                    <td class="whitespace-nowrap px-4 py-3 font-medium text-gray-800"><?= $program['progress'] ?>%</td>
-                                    <td class="whitespace-nowrap px-4 py-3"><?= renderStatusBadge($program['status']) ?></td>
+                                    <td class="whitespace-nowrap px-4 py-3 font-semibold text-gray-900"><?= htmlspecialchars($program->namaProgram) ?></td>
+                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program->kategori) ?></td>
+                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= htmlspecialchars($program->penanggungJawab) ?></td>
+                                    <td class="whitespace-nowrap px-4 py-3 text-gray-600"><?= formatTanggalIndo($program->targetSelesai) ?></td>
+                                    <td class="whitespace-nowrap px-4 py-3 font-medium text-gray-800"><?= $program->progress ?>%</td>
+                                    <td class="whitespace-nowrap px-4 py-3"><?= renderStatusBadge($program->status) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
